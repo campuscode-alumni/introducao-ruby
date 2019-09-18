@@ -10,10 +10,8 @@ end
 
 def vaga_contem?(vaga, texto)
   return false if vaga.nil?
-  
   (vaga[:titulo].downcase().include?(texto.downcase()) ||
    vaga[:descricao].downcase().include?(texto.downcase()))
-  
 end
 
 
@@ -36,7 +34,7 @@ while(opcao != SAIR) do
     descricao = gets().chomp()  
     #vaga = "titulo: " + titulo + " descricao: " + descricao 
     #vaga = "titulo: #{titulo}\ndescricao: #{descricao}"
-    vaga = { titulo: titulo, descricao: descricao }
+    # vaga = { titulo: titulo, descricao: descricao }
     vagas << vaga
 
   elsif opcao == 2
