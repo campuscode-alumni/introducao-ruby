@@ -1,27 +1,25 @@
+require_relative 'estagio' 
+
 SAIR = 4
 
 def imprime_vagas(vagas_para_imprimir)
   vagas_para_imprimir.each_with_index do |vaga, index|
     puts "Vaga ##{index + 1}"
     puts vaga
-    puts '-------------------------'
   end
 end
 
-def vaga_contem?(vaga, texto)
-  return false if vaga.nil?
-  (vaga[:titulo].downcase().include?(texto.downcase()) ||
-   vaga[:descricao].downcase().include?(texto.downcase()))
+def menu()
+  puts "\nMENU\n"
+  puts '#1 - Inserir uma vaga'
+  puts '#2 - Ver todas as vagas'
+  puts '#3 - Busca'
+  puts "##{SAIR} - Sair\n\n"
 end
 
 
 puts 'Boas Vindas - Sistema de Vagas'
-
-puts '#1 - Inserir uma vaga'
-puts '#2 - Ver todas as vagas'
-puts '#3 - Busca'
-puts "##{SAIR} - Sair"
-
+menu()
 print 'Escolha uma opção: '
 opcao = gets().to_i()
 vagas = []
@@ -32,9 +30,19 @@ while(opcao != SAIR) do
     titulo = gets().chomp()
     print 'Informe a descrição da vaga: '
     descricao = gets().chomp()  
-    #vaga = "titulo: " + titulo + " descricao: " + descricao 
-    #vaga = "titulo: #{titulo}\ndescricao: #{descricao}"
-    # vaga = { titulo: titulo, descricao: descricao }
+    
+    print 'Tipo da Vaga: [1] Estagio [2] Regular'
+    tipo = gets().to_i
+    if tipo == 1
+      print 'Informe o curso do estagio: '
+      curso = gets().chomp()  
+      print 'Informe o prazo do estagio (em meses): '
+      prazo = gets().to_i()
+      vaga = Estagio.new(titulo, descricao, curso, prazo)
+    else
+      vaga = Vaga.new(titulo, descricao)
+    end
+    
     vagas << vaga
 
   elsif opcao == 2
@@ -54,13 +62,15 @@ while(opcao != SAIR) do
     end
 =end
     vagas_encontradas = vagas.select do |v|
-      vaga_contem?(v, termo)
+      v.include?(termo)
     end
 
     
     puts "Resultado: #{vagas_encontradas.length} vagas encontradas"
     imprime_vagas(vagas_encontradas)
   end
+
+  menu()
   print 'Escolha uma nova opção: '
   opcao = gets().to_i()
 end
